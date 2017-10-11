@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "no-console": ["error", { "allow": ["info"] }],
+    "prefer-destructuring": ["error", {"object": false, "array": true}]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  }
+}

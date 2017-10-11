@@ -2,7 +2,8 @@
   "extends": "airbnb",
   "rules": {
     "no-console": ["error", { "allow": ["info"] }],
-    "prefer-destructuring": ["error", {"object": false, "array": true}]
+    "prefer-destructuring": ["error", {"object": false, "array": true}],
+    "react/prefer-stateless-function": ["off"]
   },
   "env": {
     "browser": true,

@@ -29,4 +29,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  node: {
+    fs: 'empty',
+    dns: 'empty',
+  },
+  devServer: {
+    headers: { 'Access-Control-Allow-Origin': '*' },
+  },
 };

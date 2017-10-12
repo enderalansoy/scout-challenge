@@ -1,7 +1,7 @@
 {
-  "name": "scout-challenge",
+  "name": "scrapr",
   "version": "1.0.0",
-  "description": "",
+  "description": "Scout24 challenge.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js --ignore public/",
@@ -10,10 +10,12 @@
   "author": "Alan Endersoy",
   "license": "ISC",
   "dependencies": {
+    "css-loader": "^0.28.7",
     "express": "^4.16.2",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
-    "react-scripts": "^1.0.14"
+    "style-loader": "^0.19.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

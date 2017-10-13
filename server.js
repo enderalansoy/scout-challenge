@@ -1,5 +1,6 @@
 import express from 'express';
 import axios from 'axios';
+import doctype from 'doctype';
 import cheerio from 'cheerio';
 import config from './config';
 
@@ -13,6 +14,7 @@ server.listen(config.port, () => {
   console.info('Express server listening on port :', config.port);
 });
 
+// Our API endpoint route is defined here:
 server.get('/api', (req, res) => {
   axios.get(req.query.url).then((response) => {
     const $ = cheerio.load(response.data);
@@ -20,6 +22,8 @@ server.get('/api', (req, res) => {
     const headings = [];
     const internalLinks = [];
     const externalLinks = [];
+    let numberOfInvLinks = 0;
+    let htmlVersion = 'Version could not be found.';
     let isLogin = 'There is no login form in the page.';
 
     for (let level = 1; level <= 6; level += 1) {
@@ -27,6 +31,7 @@ server.get('/api', (req, res) => {
       headings[level - 1] = headingCount;
     }
 
+    // Parsing internal/external links here:
     $('a').each(function execute() {
       if ($(this).attr('href').startsWith('#')) {
         internalLinks[internalLinks.length] = $(this).attr('href');
@@ -36,19 +41,27 @@ server.get('/api', (req, res) => {
     });
     const numberOfIntLinks = internalLinks.length;
     const numberOfExtLinks = externalLinks.length;
-    let numberOfInvLinks = 0;
 
+    // Find if there is any 'display: none' links:
     $('a').each(function execute() {
       if ($(this).css('display') === 'none') {
         numberOfInvLinks += 1;
       }
     });
 
+    // Find if there is any login (password) forms:
     $('input').each(function execute() {
       if ($(this).attr('type') === 'password') {
         isLogin = 'There is a login form in the page.';
       }
     });
+
+    // Parse html version here using doctype:
+    if (response.data.substring(0, 100).includes(doctype(4.01))) {
+      htmlVersion = '4.01';
+    } else if (response.data.substring(0, 100).includes(doctype(5))) {
+      htmlVersion = '5';
+    }
 
     res.json({
       title,
@@ -62,11 +75,24 @@ server.get('/api', (req, res) => {
       numberOfExtLinks,
       numberOfInvLinks,
       isLogin,
+      htmlVersion,
     });
   }).catch((err) => {
     if (err.response) {
-      console.info(err.response.status);
-      res.json(err.response);
+      res.json({
+        title: err,
+        h1: err,
+        h2: err,
+        h3: err,
+        h4: err,
+        h5: err,
+        h6: err,
+        numberOfIntLinks: err,
+        numberOfExtLinks: err,
+        numberOfInvLinks: err,
+        isLogin: err,
+        htmlVersion: err,
+      });
     }
   });
 });

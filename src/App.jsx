@@ -35,6 +35,7 @@ class App extends Component {
   }
 
   scrape() {
+    // Using axios to access our API:
     axios.get(`${this.state.api}?url=${this.state.url}`).then((res) => {
       console.info(res);
       this.setState({ text: res.data });
@@ -77,6 +78,7 @@ class App extends Component {
           extLinks={this.state.text.numberOfExtLinks}
           invLinks={this.state.text.numberOfInvLinks}
           isLogin={this.state.text.isLogin}
+          htmlVersion={this.state.text.htmlVersion}
         />
       </div>
     );

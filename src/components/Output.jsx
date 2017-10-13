@@ -43,6 +43,9 @@ class Output extends Component {
             <Panel header="Login Form">
               <p>{this.props.isLogin}</p>
             </Panel>
+            <Panel header="HTML Version">
+              <p>{this.props.htmlVersion}</p>
+            </Panel>
           </div>
         </div>
       </div>

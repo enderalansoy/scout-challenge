@@ -29,11 +29,11 @@ class Output extends Component {
             </Panel>
             <Panel header="Headings">
               <h1>h1: {this.props.h1Value}</h1>
-              <h2>h1: {this.props.h2Value}</h2>
-              <h3>h1: {this.props.h3Value}</h3>
-              <h4>h1: {this.props.h4Value}</h4>
-              <h5>h1: {this.props.h5Value}</h5>
-              <h6>h1: {this.props.h6Value}</h6>
+              <h2>h2: {this.props.h2Value}</h2>
+              <h3>h3: {this.props.h3Value}</h3>
+              <h4>h4: {this.props.h4Value}</h4>
+              <h5>h5: {this.props.h5Value}</h5>
+              <h6>h6: {this.props.h6Value}</h6>
             </Panel>
             <Panel header="Links">
               <p># of Internal Links (#): {this.props.intLinks}</p>

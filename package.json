@@ -22,6 +22,7 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
+    "react-scripts": "^1.0.14",
     "request": "^2.83.0",
     "style-loader": "^0.19.0",
     "tls": "0.0.1"
@@ -39,7 +40,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "nodemon": "^1.12.1",
-    "webpack": "^3.6.0"
+    "webpack": "^3.7.1"
   },
   "engines": {
     "node": ">=4.2.4"

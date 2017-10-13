@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown, MenuItem } from 'react-bootstrap';
 
 class Navigation extends Component {
   render() {
@@ -16,19 +16,14 @@ class Navigation extends Component {
                   <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
-                  <Nav>
-                    <NavItem eventKey={1} href="#">About</NavItem>
-                  </Nav>
                   <Nav pullRight>
-                    <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+                    <NavDropdown eventKey={3} title="About me" id="basic-nav-dropdown">
                       <MenuItem eventKey={3.1} href="https://github.com/enderalansoy">
                         My Github
                       </MenuItem>
                       <MenuItem eventKey={3.2} href="https://www.linkedin.com/in/enderalansoy">
                         My LinkedIn
                       </MenuItem>
-                      <MenuItem divider />
-                      <MenuItem eventKey={3.3}>Separated link</MenuItem>
                     </NavDropdown>
                   </Nav>
                 </Navbar.Collapse>

@@ -1,14 +1,9 @@
 import express from 'express';
-import cors from 'cors';
+import axios from 'axios';
+import cheerio from 'cheerio';
 import config from './config';
 
-const cheerio = require('cheerio');
-const request = require('request');
-
-
 const server = express();
-
-server.use(cors());
 
 // Telling express to use /public as default static folder.
 server.use(express.static('public'));
@@ -18,45 +13,60 @@ server.listen(config.port, () => {
   console.info('Express server listening on port :', config.port);
 });
 
-
 server.get('/api', (req, res) => {
-  request(req.param('url'), (error, response, html) => {
-    if (!error && response.statusCode === 200) {
-      // Cheerio.js to load page source.
-      const $ = cheerio.load(html);
+  axios.get(req.query.url).then((response) => {
+    const $ = cheerio.load(response.data);
+    const title = $('title').text();
+    const headings = [];
+    const internalLinks = [];
+    const externalLinks = [];
+    let isLogin = 'There is no login form in the page.';
 
-      // Parse title of the page from '<title>' tag.
-      const title = $('title').text();
-      console.info(`Title: ${title}`);
-      res.send(title);
+    for (let level = 1; level <= 6; level += 1) {
+      const headingCount = $(`h${level}`).length;
+      headings[level - 1] = headingCount;
+    }
 
-      // Parse headings in the page from '<h*>' tags.
-      for (let level = 1; level <= 6; level += 1) {
-        const headingCount = $(`h${level}`).length;
-        console.info(`Level ${level} headings: ${headingCount}`);
+    $('a').each(function execute() {
+      if ($(this).attr('href').startsWith('#')) {
+        internalLinks[internalLinks.length] = $(this).attr('href');
+      } else {
+        externalLinks[externalLinks.length] = $(this).attr('href');
       }
+    });
+    const numberOfIntLinks = internalLinks.length;
+    const numberOfExtLinks = externalLinks.length;
+    let numberOfInvLinks = 0;
 
-      // Parse links.
-      const internalLinks = [];
-      const externalLinks = [];
-      $('a').each(function execute() {
-        if ($(this).attr('href').startsWith('#')) {
-          internalLinks[internalLinks.length] = $(this).attr('href');
-        } else {
-          externalLinks[externalLinks.length] = $(this).attr('href');
-        }
-      });
+    $('a').each(function execute() {
+      if ($(this).css('display') === 'none') {
+        numberOfInvLinks += 1;
+      }
+    });
 
-      $('a').each(function execute(i) {
-        if ($(this).css('display') === 'none') {
-          console.info(`${i} is invisible`);
-        } else {
-          console.info(`${i} is visible`);
-        }
-      });
+    $('input').each(function execute() {
+      if ($(this).attr('type') === 'password') {
+        isLogin = 'There is a login form in the page.';
+      }
+    });
 
-      console.info(`# of external links: ${externalLinks.length}`);
-      console.info(`# of internal links: ${internalLinks.length}`);
+    res.json({
+      title,
+      h1: headings[0],
+      h2: headings[1],
+      h3: headings[2],
+      h4: headings[3],
+      h5: headings[4],
+      h6: headings[5],
+      numberOfIntLinks,
+      numberOfExtLinks,
+      numberOfInvLinks,
+      isLogin,
+    });
+  }).catch((err) => {
+    if (err.response) {
+      console.info(err.response.status);
+      res.json(err.response);
     }
   });
 });

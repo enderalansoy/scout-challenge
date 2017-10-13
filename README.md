@@ -16,3 +16,7 @@ Others: Webpack, Babel, ESLint, Nodemon, Doctype
 - Axios is used as HTTP module as it can handle async tasks with promises.
 - Finding HTML version in the website as cheerio.js would not be able to parse !DOCTYPE.
 - API is written with Express, returns a JSON to access outside origins.
+
+## Github
+
+https://github.com/enderalansoy/scout-challenge
